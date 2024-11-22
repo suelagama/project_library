@@ -1,0 +1,116 @@
+{% load crispy_forms_tags %}
+
+<form action="" method="post" enctype="multipart/form-data" class="mt-3" loading="lazy">
+    {% csrf_token %}
+    <div class="card border-0">
+        <div class="card-body">
+            <div class="d-inline">
+                <div class="row g-3">
+                    <div class="col-md-4 col-12">
+                        <label class="cover" for="id_cover" tabIndex="0">
+                            {% if form.instance.cover.url and form.instance.cover.url != '/media/covers/no_image.jpg' %}
+                            <img src="{{ form.instance.cover.url }}" alt="{{ form.instance.title }}" class="cover"
+                                loading="lazy">
+                            {% else %}
+                            <span class="picture__image">Escolha uma imagem</span>
+                            {% endif %}
+                        </label>
+                        <div class="mt-2">
+                            {{ form.cover|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-12">
+                        <div class="row">
+                            <div>
+                                {{ form.title|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div>
+                                {{ form.subtitle|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 col-12">
+                                {{ form.authors|as_crispy_field }}
+                            </div>
+                            <div class="col-md-4 col-12">
+                                {{ form.publication_year|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-12">
+                                {{ form.publisher|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6 col-12">
+                                {{ form.categories|as_crispy_field }}
+                            </div>
+                            <div class="col-md-2 col-12">
+                                {{ form.total_quantity|as_crispy_field }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        {{ form.description|as_crispy_field }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="float-end">
+        {% include 'components/buttons/_submit.html' %}
+        {% include 'components/buttons/_back.html' %}
+
+    </div>
+</form>
+
+<script>
+    new TomSelect('#id_authors', {
+        plugins: ['remove_button'],
+        placeholder: 'Selecione os autores',
+        maxItems: 3
+    });
+
+    new TomSelect('#id_categories', {
+        plugins: ['remove_button'],
+        placeholder: 'Selecione as categorias',
+        maxItems: 5
+    });
+
+    new TomSelect('#id_publisher', {
+        placeholder: 'Selecione a editora',
+    });
+</script>
+
+<script>
+
+    const inputFile = document.querySelector("#id_cover");
+    const pictureImage = document.querySelector(".picture__image");
+    const pictureImageTxt = "Choose an image";
+    // pictureImage.innerHTML = pictureImageTxt;
+
+    inputFile.addEventListener("change", function (e) {
+        const inputTarget = e.target;
+        const file = inputTarget.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.addEventListener("load", function (e) {
+                const readerTarget = e.target;
+
+                const img = document.createElement("img");
+                img.src = readerTarget.result;
+                img.classList.add("picture__img");
+
+                pictureImage.innerHTML = "";
+                pictureImage.appendChild(img);
+            });
+
+            reader.readAsDataURL(file);
+        } else {
+            pictureImage.innerHTML = pictureImageTxt;
+        }
+    });
+
+</script>
