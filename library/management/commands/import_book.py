@@ -25,7 +25,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         # Caminho do CSV
         # Substitua pelo caminho correto
-        csv_path = 'library/management/commands/book_data.csv'
+        csv_path = '_download/book_data.csv'
 
         # Lê o CSV
         try:
@@ -38,7 +38,16 @@ class Command(BaseCommand):
             self.stderr.write(f"Erro ao ler o arquivo CSV: {e}")
             return
 
-            # Aplica o limite, se especificado
+        df = df.fillna({
+            'title': 'Título Desconhecido',  # Valor padrão para títulos vazios
+            'subtitle': '',  # Valor padrão para títulos vazios
+            'authors': 'Autor Desconhecido',  # Valor padrão para autores vazios
+            'categories': 'Categoria Desconhecida',  # Valor padrão para categorias vazias
+            'publisher': 'Editora Desconhecida',  # Valor padrão para editoras vazias
+            'image': ''
+        })
+
+        # Aplica o limite, se especificado
         limit = kwargs['limit']
         if limit is not None:
             df = df.head(limit)  # Seleciona apenas as primeiras `limit` linhas
@@ -67,7 +76,7 @@ class Command(BaseCommand):
 
             # Criar ou atualizar o livro
             book_title = row['title'].strip()
-            book_subtitle = row['subtitle']
+            book_subtitle = row['subtitle'].strip()
             total_quantity = 10
 
             book_year = row['publishedDate']
@@ -110,6 +119,9 @@ class Command(BaseCommand):
                     except requests.RequestException as e:
                         self.stderr.write(
                             f"Erro ao baixar a capa do livro '{book.title}': {e}")
+                else:
+                    self.stdout.write(
+                        f"Livro '{book.title}' sem URL de capa, não foi definida uma imagem.")
 
             # Salvar o livro
             book.save()
