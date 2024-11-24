@@ -1,5 +1,4 @@
 import os
-from unicodedata import category
 
 import pandas as pd
 import requests
@@ -44,6 +43,7 @@ class Command(BaseCommand):
             'authors': 'Autor Desconhecido',  # Valor padrão para autores vazios
             'categories': 'Categoria Desconhecida',  # Valor padrão para categorias vazias
             'publisher': 'Editora Desconhecida',  # Valor padrão para editoras vazias
+            'description': '',  # Valor padrão para descrição vazia
             'image': ''
         })
 
