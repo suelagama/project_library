@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'partials/_header.html' %}
+
+<div class="container w-75">
+    {% include 'partials/_search.html' %}
+</div>
+
+<div class="container">
+    {% include 'partials/_messages.html' %}
+</div>
+
+<!-- Table Element -->
+<div class="card border-0 mt-4">
+    <div class="card-header">
+        <div class="card-subtitle float-end mt-1">
+            <a href="{% url 'library:category_create' %}" class="btn btn-sm btn-success"><i class="bi bi-plus"></i>Nova
+                Categoria</a>
+        </div>
+    </div>
+    <div class="card-body table-responsive">
+        <table class="table table-ellipsis">
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col" class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for object in objects %}
+                {% include 'categories/modals/modal_delete.html' %}
+                <tr>
+                    <td><a href="{% url 'library:category_detail' object.slug %}">{{ object.name }}</a></td>
+
+                    <td class="text-center">
+                        <a href="{% url 'library:category_update' object.pk %}" class="btn btn-sm btn-primary"><i
+                                class="bi bi-pencil-square"></i></a>
+
+                        <a href="" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#deleteModal{{ object.pk }}"><i class="bi bi-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

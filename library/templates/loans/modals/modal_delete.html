@@ -1,0 +1,25 @@
+{% extends 'components/modal/base_modal.html' %}
+
+{% block modal-id %}deleteModal{{ object.pk }}{% endblock modal-id %}
+
+{% block modal-title %}<i class="bi bi-trash"></i> &nbsp; Excluir Empréstimo{% endblock modal-title %}
+
+
+{% block modal-body %}
+
+
+<div class="text-danger text-center"><i class="bi bi-trash fa-5x mb-4 mb2"></i></div>
+<div class="text-danger text-center">
+    <span>CONFIRMAR EXCLUSÃO DESSE EMPRÉSTIMO?</span>
+    <div class="mt-3 mb-2">Empréstimo:
+        <strong>{{ object.book.title }} </strong>
+    </div>
+</div>
+{% endblock modal-body %}
+
+{% block modal-footer %}
+<form action="{% url 'library:loan_delete' object.pk %}" method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Excluir</button>
+</form>
+{% endblock modal-footer %}

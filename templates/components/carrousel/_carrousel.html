@@ -1,0 +1,29 @@
+{% load custom_filters %}
+
+<div class="row">
+    <div class="col-12">
+        <div id="carouselExample" class="carousel carousel-dark slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for group in popular_books|group_by:5 %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div
+                        class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-6  g-0 align-items-center justify-content-center">
+                        {% for book in group %}
+                        {% include 'components/cards/_book_card.html' %}
+
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</div>
