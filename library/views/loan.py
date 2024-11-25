@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views import View
 
@@ -16,14 +16,11 @@ class LoanListView(BaseListView):
     search_fields = ['student__name', 'book__title']
     template_name = 'loans/pages/loan_list.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update({
-
-            'overdue_books': Loan.objects.filter(expected_return_date__lt=timezone.now()),
-
-        })
-        return context
+    def get(self, request, *args, **kwargs):
+        request.META['breadcrumbs'] = [
+            {'name': 'Dashboard', 'url': reverse('library:dashboard')},
+            {'name': 'Loan list', 'url': ''}]
+        return super().get(request, *args, **kwargs)
 
 
 class LoanCreateView(BaseCreateView):
@@ -32,12 +29,32 @@ class LoanCreateView(BaseCreateView):
     template_name = 'loans/pages/loan_create.html'
     success_url = reverse_lazy('library:loan_list')
 
+    def get(self, request, *args, **kwargs):
+        request.META['breadcrumbs'] = [
+            {'name': 'Dashboard', 'url': reverse('library:dashboard')},
+            {'name': 'Loan list', 'url': reverse('library:loan_list')},
+            {'name': 'Register loan', 'url': ''}
+        ]
+
+        return super().get(request, *args, **kwargs)
+
 
 class LoanUpdateView(BaseUpdateView):
     model = Loan
     form_class = LoanForm
     template_name = 'loans/pages/loan_update.html'
     success_url = reverse_lazy('library:loan_list')
+
+    def get(self, request, *args, **kwargs):
+        request.META['breadcrumbs'] = [
+            {'name': 'Dashboard', 'url': reverse('library:dashboard')},
+            {'name': 'Loan list', 'url': reverse(
+                'library:loan_list')},
+            {'name': 'Loan detail', 'url': reverse_lazy(
+                'library:loan_detail',
+                kwargs={'pk': self.get_object().pk})}
+        ]
+        return super().get(request, *args, **kwargs)
 
 
 class LoanBookReturnView(View):

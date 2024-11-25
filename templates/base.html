@@ -32,6 +32,7 @@
                 {% include 'partials/_navbar.html' %}
                 <main class="content px-3 py-2">
                     <div class="container">
+                        {% load breadcrumbs %} {% breadcrumb %}
                         {% block content %} {% endblock content %}
 
                     </div>

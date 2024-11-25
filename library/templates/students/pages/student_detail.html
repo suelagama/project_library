@@ -2,8 +2,6 @@
 
 {% block content %}
 
-{% include 'partials/_header.html' %}
-
 <div class="container">
     {% include 'partials/_messages.html' %}
 </div>
@@ -36,7 +34,8 @@
 </div>
 <div class="float-end">
     {% include 'students/modals/modal_delete.html' %}
-    <a href="#" class="btn btn-primary btn-sm"><i class="{{ button_icon }}"></i>&nbsp;&nbsp;
+    <a href="{% url 'library:student_update' object.pk %}" class="btn btn-primary btn-sm"><i
+            class="{{ button_icon }}"></i>&nbsp;&nbsp;
         {{ button_name }}</a>
     <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ object.pk }}"><i
             class="bi bi-x"></i>&nbsp;&nbsp; Excluir</a>

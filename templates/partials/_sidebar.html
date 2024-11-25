@@ -3,12 +3,12 @@
 <div class="h-100">
     <div class="sidebar-logo">
         <a href="#"><img src="{% static 'global/icons/library_books.svg' %}" alt="Library Books Icon">&nbsp;
-            Biblioteca</a>
+            Library</a>
     </div>
     <ul class="sidebar-nav">
-        <li class="sidebar-header">
+        <!-- <li class="sidebar-header">
             Admin Elements
-        </li>
+        </li> -->
         <li class="sidebar-item">
             <a href="{% url 'library:dashboard' %}" class="sidebar-link">
                 <i class="bi bi-speedometer pe-2"></i>
@@ -16,53 +16,42 @@
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link collapsed" data-bs-target="#books" data-bs-toggle="collapse"
-                aria-expanded="false"><i class="bi bi-book pe-2"></i>
-                Livros
+            <a href="{% url 'library:book_list' %}" class="sidebar-link">
+                <i class="bi bi-book pe-2"></i>
+                Books
             </a>
-            <ul id="books" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                <li class="sidebar-item">
-                    <a href="{% url 'library:book_list' %}" class="sidebar-link">Gerenciar</a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">Page 2</a>
-                </li>
-            </ul>
         </li>
         <li class="sidebar-item">
-            <a href="{% url 'library:loan_list' %}" class="sidebar-link collapsed" data-bs-target="#loans"
-                data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-journal-arrow-down pe-2"></i>
-                Empréstimos
+            <a href="{% url 'library:author_list' %}" class="sidebar-link">
+                <i class="bi bi-pencil pe-2"></i>
+                Authors
             </a>
-            <ul id="loans" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                <li class="sidebar-item">
-                    <a href="{% url 'library:loan_list' %}" class="sidebar-link">Gerenciar</a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">Post 2</a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">Post 3</a>
-                </li>
-            </ul>
         </li>
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link collapsed" data-bs-target="#students" data-bs-toggle="collapse"
-                aria-expanded="false"><i class="bi bi-person-badge pe-2"></i>
-                Alunos
+            <a href="{% url 'library:publisher_list' %}" class="sidebar-link">
+                <i class="bi bi-newspaper pe-2"></i>
+                Publishers
             </a>
-            <ul id="students" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                <li class="sidebar-item">
-                    <a href="{% url 'library:student_list' %}" class="sidebar-link">Gerenciar</a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">Post 2</a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">Post 3</a>
-                </li>
-            </ul>
         </li>
+        <li class="sidebar-item">
+            <a href="{% url 'library:category_list' %}" class="sidebar-link">
+                <i class="bi bi-bookmarks pe-2"></i>
+                Categories
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="{% url 'library:student_list' %}" class="sidebar-link">
+                <i class="bi bi-mortarboard pe-2"></i>
+                Students
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="{% url 'library:loan_list' %}" class="sidebar-link">
+                <i class="bi bi-calendar2 pe-2"></i>
+                Loans
+            </a>
+        </li>
+
         <li class="sidebar-item">
             <a href="#" class="sidebar-link collapsed" data-bs-target="#auth" data-bs-toggle="collapse"
                 aria-expanded="false"><i class="bi bi-person pe-2"></i>
