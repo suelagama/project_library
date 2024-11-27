@@ -1,21 +1,22 @@
 
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import ProtectedError
 from django.http import Http404
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.views import View
 
 from library.forms import BookForm
-from library.models import Book
+from library.models import Author, Book, Category
 
 from .base import BaseCreateView, BaseDetailView, BaseListView, BaseUpdateView
 
 
 class BookListView(BaseListView):
     model = Book
-    search_fields = ['title', 'author__name',
-                     'category__name', 'publisher__name', 'publication_year']
+    search_fields = ['title', 'authors__name',
+                     'categories__name', 'publisher__name', 'publication_year']
     template_name = 'books/pages/book_list.html'
 
     def get(self, request, *args, **kwargs):
@@ -49,8 +50,9 @@ class BookListViewCategory(BaseListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['page_title'] = f'{context.get(
-            "objects")[0].categories.first().name}'
+        category_slug = self.kwargs.get('slug')
+        category = get_object_or_404(Category, slug=category_slug)
+        context['page_title'] = category.name
         return context
 
 
@@ -79,8 +81,9 @@ class BookListViewAuthor(BaseListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['page_title'] = f'{context.get(
-            "objects")[0].authors.first().name}'
+        author_slug = self.kwargs.get('slug')
+        author = get_object_or_404(Author, slug=author_slug)
+        context['page_title'] = author.name
         return context
 
 
@@ -152,7 +155,9 @@ class BookUpdateView(BaseUpdateView):
         return super().get(request, *args, **kwargs)
 
 
-class BookDeleteView(View):
+class BookDeleteView(LoginRequiredMixin, View):
+    login_url = 'account:user_login'
+
     def post(self, request, book_pk):
         try:
             book = Book.objects.get(pk=book_pk)

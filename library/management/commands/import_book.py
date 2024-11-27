@@ -5,7 +5,6 @@ import requests
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
 
-# Substitua pelo nome correto do app
 from library.models import Author, Book, Category, Publisher
 
 

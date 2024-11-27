@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import ProtectedError
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -65,7 +66,7 @@ class StudentUpdateView(BaseUpdateView):
         return super().get(request, *args, **kwargs)
 
 
-class StudentDeleteView(View):
+class StudentDeleteView(View, LoginRequiredMixin):
     def post(self, request, student_pk):
         try:
             student = Student.objects.get(pk=student_pk)

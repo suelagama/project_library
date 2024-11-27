@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
@@ -7,7 +8,7 @@ from django.views import View
 from library.forms import LoanForm
 from library.models import Loan
 
-from .base import BaseCreateView, BaseDetailView, BaseListView, BaseUpdateView
+from .base import BaseCreateView, BaseListView, BaseUpdateView
 
 
 class LoanListView(BaseListView):
@@ -57,7 +58,7 @@ class LoanUpdateView(BaseUpdateView):
         return super().get(request, *args, **kwargs)
 
 
-class LoanBookReturnView(View):
+class LoanBookReturnView(View, LoginRequiredMixin):
 
     def post(self, request, loan_pk):
         loan = get_object_or_404(Loan, pk=loan_pk)
@@ -68,7 +69,7 @@ class LoanBookReturnView(View):
         return redirect('library:loan_list')
 
 
-class LoanDeleteView(View):
+class LoanDeleteView(View, LoginRequiredMixin):
     def post(self, request, loan_pk):
         loan = Loan.objects.get(pk=loan_pk)
         loan.delete()

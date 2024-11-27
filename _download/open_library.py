@@ -143,7 +143,7 @@ def save_to_csv(books: List[Dict[str, Any]], filename: str = "livros.csv"):
 
 def main():
     # Exemplo de uso
-    query = "Steve Jobs"  # Pode ser alterado para qualquer termo de busca
+    query = "Ayrton Senna"  # Pode ser alterado para qualquer termo de busca
     limit = 10  # Número de livros a serem buscados
 
     try:
