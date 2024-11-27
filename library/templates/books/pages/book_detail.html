@@ -2,9 +2,6 @@
 
 {% block content %}
 
-
-
-
 <div class="container">
     {% include 'partials/_messages.html' %}
 </div>
@@ -75,13 +72,9 @@
                             </div>
                         </small>
                     </div>
-                    <h5 class="mt-5 date-create-update">
-                        {% if object.updated_at %}
-                        <span class="fw-bold">Atualizado em: </span>{{ object.updated_at }}
-                        {% else %}
-                        <span class="fw-bold">Adicionado em: </span>{{ object.created_at }}
-                        {% endif %}
-                    </h5>
+                    <div class="row">
+                        {% include 'components/footnote/_info_note.html' %}
+                    </div>
                 </div>
             </div>
         </div>

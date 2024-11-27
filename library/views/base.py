@@ -32,10 +32,10 @@ class BaseCreateView(BaseCrudView, CreateView):
         return context
 
     def form_valid(self, form):
-        response = super().form_valid(form)
+        form.instance.registered_by = self.request.user
         messages.success(self.request,
                          f'{self.model._meta.verbose_name} registered successfully!'.capitalize())
-        return response
+        return super().form_valid(form)
 
 
 class BaseDetailView(BaseCrudView, DetailView):

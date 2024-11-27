@@ -1,11 +1,11 @@
 <!-- templates/breadcrumb.html -->
-<nav aria-label="breadcrumb" style="--bs-breadcrumb-divider: '>';">
+<nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         {% for crumb in breadcrumbs %}
         {% if forloop.last %}
-        <li class="breadcrumb-item active fs-5" aria-current="page">{{ crumb.name }}</li>
+        <li class="breadcrumb-item active fs-6" aria-current="page">{{ crumb.name }}</li>
         {% else %}
-        <li class="breadcrumb-item fs-5"><a href="{{ crumb.url }}">{{ crumb.name }}</a></li>
+        <li class="breadcrumb-item fs-6"><a href="{{ crumb.url }}">{{ crumb.name }}</a></li>
         {% endif %}
         {% endfor %}
     </ol>

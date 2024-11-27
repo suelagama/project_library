@@ -104,7 +104,8 @@ class BookForm(forms.ModelForm):
 
 class LoanForm(forms.ModelForm):
     book = forms.ModelChoiceField(
-        queryset=Book.objects.filter(quantity_available__gt=0)
+        queryset=Book.objects.filter(
+            quantity_available__gt=0).order_by('title')
     )
 
     observation = forms.CharField(
@@ -141,9 +142,3 @@ class LoanForm(forms.ModelForm):
                 }
             ),
         }
-
-    def __init__(self, *args, **kwargs):
-        super(LoanForm, self).__init__(*args, **kwargs)
-
-        self.fields['book'].widget.attrs.update(
-            {'style': 'font-size: 0.813rem;'})

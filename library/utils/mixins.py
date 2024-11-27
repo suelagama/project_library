@@ -1,5 +1,6 @@
 # type: ignore
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
@@ -43,10 +44,11 @@ class SearchMixin:
         return context
 
 
-class BaseCrudView:
+class BaseCrudView(LoginRequiredMixin):
     model = None
     forms_class = None
     success_url = None
+    login_url = 'account:user_login'
 
     def get_success_url(self):
         if self.success_url:

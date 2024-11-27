@@ -14,6 +14,7 @@ from pathlib import Path
 
 import environ
 from django.contrib.messages import constants as messages
+from django.urls import reverse
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
 
     # My app
     'library',
+    'accounts'
 
 ]
 
@@ -168,3 +170,5 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+LOGIN_REDIRECT_URL = 'library:dashboard'

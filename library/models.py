@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Count, Sum
 from django.db.models.functions import TruncDate, TruncMonth
@@ -12,6 +13,8 @@ class Author(UniqueSlugMixin, models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=150)
     about = models.TextField()
+    registered_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
@@ -28,6 +31,8 @@ class Author(UniqueSlugMixin, models.Model):
 class Publisher(UniqueSlugMixin, models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=150)
+    registered_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
@@ -44,6 +49,8 @@ class Publisher(UniqueSlugMixin, models.Model):
 class Category(UniqueSlugMixin, models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=150, unique=True, blank=True)
+    registered_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
@@ -66,6 +73,8 @@ class Student(models.Model, UniqueSlugMixin):
     institution = models.CharField(max_length=150)
     email = models.EmailField(max_length=254)
     observation = models.TextField(blank=True, null=True)
+    registered_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -80,7 +89,7 @@ class Student(models.Model, UniqueSlugMixin):
 
 class Book(models.Model, UniqueSlugMixin):
     title = models.CharField(max_length=200)
-    subtitle = models.CharField(max_length=200)
+    subtitle = models.CharField(max_length=200, null=True, blank=True)
 
     slug = models.SlugField(max_length=250, unique=True, blank=True)
     authors = models.ManyToManyField(
@@ -97,6 +106,9 @@ class Book(models.Model, UniqueSlugMixin):
     description = models.TextField(blank=True, null=True)
     cover = models.ImageField(
         upload_to='covers/%Y/%m/%d', blank=True, default='covers/no_image.jpg')
+
+    registered_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -130,8 +142,9 @@ class Loan(models.Model):
     actual_return_date = models.DateTimeField(
         blank=True, null=True)
     observation = models.TextField(blank=True, null=True)
-
     returned = models.BooleanField(default=False)
+    registered_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.book.title
