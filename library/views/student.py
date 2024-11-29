@@ -67,9 +67,9 @@ class StudentUpdateView(BaseUpdateView):
 
 
 class StudentDeleteView(View, LoginRequiredMixin):
-    def post(self, request, student_pk):
+    def post(self, request, pk):
         try:
-            student = Student.objects.get(pk=student_pk)
+            student = Student.objects.get(pk=pk)
             student.delete()
             messages.success(request, 'Deleted student')
         except ProtectedError:

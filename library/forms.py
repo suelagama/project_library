@@ -1,4 +1,5 @@
 from django import forms
+from django.utils import timezone
 
 from .models import Author, Book, Category, Loan, Publisher, Student
 
@@ -142,3 +143,7 @@ class LoanForm(forms.ModelForm):
                 }
             ),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.initial['loan_date'] = timezone.now()

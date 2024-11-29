@@ -158,9 +158,9 @@ class BookUpdateView(BaseUpdateView):
 class BookDeleteView(LoginRequiredMixin, View):
     login_url = 'account:user_login'
 
-    def post(self, request, book_pk):
+    def post(self, request, pk):
         try:
-            book = Book.objects.get(pk=book_pk)
+            book = Book.objects.get(pk=pk)
             book.delete()
             messages.success(request, 'Deleted book')
         except ProtectedError:

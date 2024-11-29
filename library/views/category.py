@@ -66,9 +66,9 @@ class CategoryUpdateView(BaseUpdateView):
 
 
 class CategoryDeleteView(View):
-    def post(self, request, category_pk):
+    def post(self, request, pk):
         try:
-            category = Category.objects.filter(pk=category_pk)
+            category = Category.objects.filter(pk=pk)
             category.delete()
             messages.success(request, 'Deleted category')
         except ProtectedError:

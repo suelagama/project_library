@@ -24,36 +24,40 @@
 <!-- Gráfico de Empréstimos Mensais -->
 
 <div class="mb-3">
-    <h4 class="mt-2">Loans per day</h4>
+    <h4 class="mt-2">Chats</h4>
 </div>
 
 
 <div class="card border-0">
-    <div class="card-header">
-        <canvas id="graficoMensal"></canvas>
+    <div class="card-header row">
+        <div class="col">
+            <canvas id="graficoDia"></canvas>
+        </div>
+        <div class="col">
+            <canvas id="graficoMensal"></canvas>
+        </div>
     </div>
 </div>
-
 
 <!-- Chart js -->
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     // Obter os dados do Django
-    const dados = JSON.parse('{{ day_statistics|safe }}');
+    const day_data = JSON.parse('{{ day_statistics|safe }}');
 
-    const ctx = document.getElementById('graficoMensal').getContext('2d');
+    const ctx_day = document.getElementById('graficoDia').getContext('2d');
 
-    new Chart(ctx, {
+    new Chart(ctx_day, {
         type: 'line',
         data: {
-            labels: dados.map(item => {
+            labels: day_data.map(item => {
                 const data = new Date(item.day); // Convertendo a data no JS
-                return data.toLocaleDateString('pt-BR', { day: 'numeric', month: 'numeric' });
+                return data.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
             }),
             datasets: [{
-                label: 'Empréstimos',
-                data: dados.map(item => item.total), // Obtendo o total
+                label: 'Loans',
+                data: day_data.map(item => item.total), // Obtendo o total
                 fill: true,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1
@@ -67,7 +71,74 @@
                 },
                 title: {
                     display: true,
-                    text: 'Empréstimos por dia'
+                    text: 'Loans per day'
+                },
+                scales: {
+                    y: {
+                        stacked: true
+                    }
+                }
+
+            }
+        }
+    });
+</script>
+<script>
+    // Obter os dados do Django
+    const dados = JSON.parse('{{ monthly_statistics|safe }}');
+
+    const ctx = document.getElementById('graficoMensal').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: dados.map(item => {
+                const data = new Date(item.month); // Convertendo a data no JS
+                return data.toLocaleDateString('en-US', { month: '2-digit', year: 'numeric' });
+            }),
+            datasets: [{
+                label: 'Loans',
+                data: dados.map(item => item.total), // Obtendo o total
+                fill: true,
+                // barPercentage: 1,
+                // barThickness: 15,
+                maxBarThickness: 20,
+                // minBarLength: 10,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(201, 203, 207, 0.2)'
+                ],
+                borderColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(153, 102, 255)',
+                    'rgb(201, 203, 207)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Loans per month'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
             }
         }

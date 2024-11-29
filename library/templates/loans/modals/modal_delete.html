@@ -16,10 +16,3 @@
     </div>
 </div>
 {% endblock modal-body %}
-
-{% block modal-footer %}
-<form action="{% url 'library:loan_delete' object.pk %}" method="POST">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Excluir</button>
-</form>
-{% endblock modal-footer %}

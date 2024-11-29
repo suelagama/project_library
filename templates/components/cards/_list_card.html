@@ -1,8 +1,8 @@
 <div class="col">
-    <div class="list-book-card mx-auto rounded-0">
+    <div class="list-book-card mx-auto">
         <div class="list-card-cover">
             <a href="{% url 'library:book_detail' object.slug %}">
-                <img src="{{ object.cover.url }}" class="card-img-top card-img rounded-0" alt="{{ object.title }}">
+                <img src="{{ object.cover.url }}" class="card-img-top card-img" alt="{{ object.title }}">
             </a>
         </div>
     </div>

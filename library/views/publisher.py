@@ -68,9 +68,9 @@ class PublisherUpdateView(BaseUpdateView):
 
 
 class PublisherDeleteView(View):
-    def post(self, request, publisher_pk):
+    def post(self, request, pk):
         try:
-            publisher = Publisher.objects.get(pk=publisher_pk)
+            publisher = Publisher.objects.get(pk=pk)
             publisher.delete()
             messages.success(request, 'Deleted publisher')
         except ProtectedError:

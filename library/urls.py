@@ -15,7 +15,7 @@ urlpatterns = [
     path('book/<int:pk>/update/', views.BookUpdateView.as_view(), name='book_update'),
     path('book/detail/<slug:slug>/',
          views.BookDetailView.as_view(), name='book_detail'),
-    path('book/<int:book_pk>/delete/',
+    path('book/<int:pk>/delete/',
          views.BookDeleteView.as_view(), name='book_delete'),
     path('book/category/<slug:slug>/',
          views.BookListViewCategory.as_view(), name='book_category'),
@@ -32,7 +32,7 @@ urlpatterns = [
          views.AuthorDetailView.as_view(), name='author_detail'),
     path('author/<int:pk>/update',
          views.AuthorUpdateView.as_view(), name='author_update'),
-    path('author/<int:author_pk>/delete',
+    path('author/<int:pk>/delete',
          views.AuthorDeleteView.as_view(), name='author_delete'),
 
     # ----------------------------- Publihsrs ----------------------------- #
@@ -43,7 +43,7 @@ urlpatterns = [
          views.PublisherDetailView.as_view(), name='publisher_detail'),
     path('publisher/<int:pk>/update',
          views.PublisherUpdateView.as_view(), name='publisher_update'),
-    path('publisher/<int:publisher_pk>/delete',
+    path('publisher/<int:pk>/delete',
          views.PublisherDeleteView.as_view(), name='publisher_delete'),
 
     # ----------------------------- Categories ----------------------------- #
@@ -54,7 +54,7 @@ urlpatterns = [
          views.CategoryDetailView.as_view(), name='category_detail'),
     path('category/<int:pk>/update',
          views.CategoryUpdateView.as_view(), name='category_update'),
-    path('category/<int:category_pk>/delete',
+    path('category/<int:pk>/delete',
          views.CategoryDeleteView.as_view(), name='category_delete'),
 
     # ------------------------------ Students ------------------------------ #
@@ -65,16 +65,16 @@ urlpatterns = [
          views.StudentUpdateView.as_view(), name='student_update'),
     path('student/detail/<slug:slug>/',
          views.StudentDetailView.as_view(), name='student_detail'),
-    path('student/<int:student_pk>/delete/',
+    path('student/<int:pk>/delete/',
          views.StudentDeleteView.as_view(), name='student_delete'),
 
     # ------------------------------- Loans  ------------------------------- #
     path('loans/', views.LoanListView.as_view(), name='loan_list'),
     path('loan/create/', views.LoanCreateView.as_view(), name='loan_create'),
     path('loan/<int:pk>/update/', views.LoanUpdateView.as_view(), name='loan_update'),
-    path('loan/<int:loan_pk>/return/',
+    path('loan/<int:pk>/return/',
          views.LoanBookReturnView.as_view(), name='loan_return'),
-    path('loan/<int:loan_pk>/delete/',
+    path('loan/<int:pk>/delete/',
          views.LoanDeleteView.as_view(), name='loan_delete'),
 
 ]

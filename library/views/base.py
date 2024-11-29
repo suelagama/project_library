@@ -43,6 +43,8 @@ class BaseDetailView(BaseCrudView, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['user_display'] = self.object.get_user_display()  # type: ignore
+
         context['page_title'] = f'{self.model._meta.verbose_name} \
             detail'.capitalize()
         context['button_icon'] = 'bi bi-pencil'
@@ -61,7 +63,7 @@ class BaseUpdateView(BaseCrudView, UpdateView):
         return context
 
     def form_valid(self, form):
-        response = super().form_valid(form)
+        form.instance.updated_by = self.request.user
         messages.success(self.request,
                          f'{self.model._meta.verbose_name} updated successfully!'.capitalize())
-        return response
+        return super().form_valid(form)

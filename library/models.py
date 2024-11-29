@@ -3,23 +3,32 @@ from datetime import timedelta
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Count, Sum
-from django.db.models.functions import TruncDate, TruncMonth
+from django.db.models.functions import TruncDate, TruncDay, TruncMonth
 from django.utils import timezone
 
-from .utils.mixins import UniqueSlugMixin
+from .utils.absolute_urls import get_delete_url, get_update_url
+from .utils.mixins import UniqueSlugMixin, UserDisplayMixin
 
 
-class Author(UniqueSlugMixin, models.Model):
+class Author(models.Model, UniqueSlugMixin, UserDisplayMixin):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=150)
     about = models.TextField()
     registered_by = models.ForeignKey(
-        User, on_delete=models.SET_NULL, blank=True, null=True)
+        User, on_delete=models.SET_NULL, blank=True, null=True, related_name='registered_authors')
+    updated_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True, related_name='updated_authors')
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
+
+    def get_update_url(self):
+        return get_update_url(self)
+
+    def get_delete_url(self):
+        return get_delete_url(self)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -28,16 +37,24 @@ class Author(UniqueSlugMixin, models.Model):
         return super().save(*args, **kwargs)
 
 
-class Publisher(UniqueSlugMixin, models.Model):
+class Publisher(models.Model, UniqueSlugMixin, UserDisplayMixin):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=150)
     registered_by = models.ForeignKey(
-        User, on_delete=models.SET_NULL, blank=True, null=True)
+        User, on_delete=models.SET_NULL, blank=True, null=True, related_name='registered_publihsers')
+    updated_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True, related_name='updated_publishers')
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
+
+    def get_update_url(self):
+        return get_update_url(self)
+
+    def get_delete_url(self):
+        return get_delete_url(self)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -46,13 +63,21 @@ class Publisher(UniqueSlugMixin, models.Model):
         return super().save(*args, **kwargs)
 
 
-class Category(UniqueSlugMixin, models.Model):
+class Category(models.Model, UniqueSlugMixin, UserDisplayMixin):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=150, unique=True, blank=True)
     registered_by = models.ForeignKey(
-        User, on_delete=models.SET_NULL, blank=True, null=True)
+        User, on_delete=models.SET_NULL, blank=True, null=True, related_name='registered_categories')
+    updated_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True, related_name='updated_categories')
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
+
+    def get_update_url(self):
+        return get_update_url(self)
+
+    def get_delete_url(self):
+        return get_delete_url(self)
 
     class Meta:
         verbose_name_plural = 'Categories'
@@ -66,7 +91,7 @@ class Category(UniqueSlugMixin, models.Model):
         return super().save(*args, **kwargs)
 
 
-class Student(models.Model, UniqueSlugMixin):
+class Student(models.Model, UniqueSlugMixin, UserDisplayMixin):
     name = models.CharField(max_length=150)
     slug = models.SlugField(max_length=200)
     course = models.CharField(max_length=150)
@@ -74,9 +99,17 @@ class Student(models.Model, UniqueSlugMixin):
     email = models.EmailField(max_length=254)
     observation = models.TextField(blank=True, null=True)
     registered_by = models.ForeignKey(
-        User, on_delete=models.SET_NULL, blank=True, null=True)
+        User, on_delete=models.SET_NULL, blank=True, null=True, related_name='registered_student')
+    updated_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True, related_name='updated_student')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def get_update_url(self):
+        return get_update_url(self)
+
+    def get_delete_url(self):
+        return get_delete_url(self)
 
     def __str__(self):
         return self.name
@@ -87,7 +120,7 @@ class Student(models.Model, UniqueSlugMixin):
         return super().save(*args, **kwargs)
 
 
-class Book(models.Model, UniqueSlugMixin):
+class Book(models.Model, UniqueSlugMixin, UserDisplayMixin):
     title = models.CharField(max_length=200)
     subtitle = models.CharField(max_length=200, null=True, blank=True)
 
@@ -108,13 +141,21 @@ class Book(models.Model, UniqueSlugMixin):
         upload_to='covers/%Y/%m/%d', blank=True, default='covers/no_image.jpg')
 
     registered_by = models.ForeignKey(
-        User, on_delete=models.SET_NULL, blank=True, null=True)
+        User, on_delete=models.SET_NULL, blank=True, null=True, related_name='registered_books')
+    updated_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True, related_name='updated_books')
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
+
+    def get_update_url(self):
+        return get_update_url(self)
+
+    def get_delete_url(self):
+        return get_delete_url(self)
 
     def save(self, *args, **kwargs):
 
@@ -134,7 +175,7 @@ class Book(models.Model, UniqueSlugMixin):
         return super().save(*args, **kwargs)
 
 
-class Loan(models.Model):
+class Loan(models.Model, UniqueSlugMixin, UserDisplayMixin,):
     student = models.ForeignKey(Student, on_delete=models.PROTECT)
     book = models.ForeignKey(Book, on_delete=models.PROTECT)
     loan_date = models.DateTimeField()
@@ -144,10 +185,18 @@ class Loan(models.Model):
     observation = models.TextField(blank=True, null=True)
     returned = models.BooleanField(default=False)
     registered_by = models.ForeignKey(
-        User, on_delete=models.SET_NULL, blank=True, null=True)
+        User, on_delete=models.SET_NULL, blank=True, null=True, related_name='registered_loans')
+    updated_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True, related_name='updated_loans')
 
     def __str__(self):
         return self.book.title
+
+    def get_update_url(self):
+        return get_update_url(self)
+
+    def get_delete_url(self):
+        return get_delete_url(self)
 
 
 class LoanStatistcs(models.Model):
@@ -195,7 +244,7 @@ class DashboardManager:
             .filter(date__gte=start_date)
             .values('book__slug', 'book__title', 'book__authors__name', 'book__publication_year', 'book__cover')
             .annotate(total=Sum('loan_quantity'))
-            .order_by('-total')[:12]
+            .order_by('-total')[:10]
         )
 
     @staticmethod
@@ -217,15 +266,15 @@ class DashboardManager:
             .annotate(month=TruncMonth('loan_date'))
             .values('month')
             .annotate(total=Count('pk'))
-            .order_by('-month')[:12]
+            .order_by('-month')
         )
 
     @staticmethod
     def get_day_statistics():
         return (
             Loan.objects
-            .annotate(day=TruncDate('loan_date'))
+            .annotate(day=TruncDay('loan_date'))
             .values('day')
             .annotate(total=Count('pk'))
-            .order_by('day')
+            .order_by('-day')
         )

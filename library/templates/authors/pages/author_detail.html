@@ -30,11 +30,9 @@
 <div class="float-end">
     {% include 'authors/modals/modal_delete.html' %}
 
-    <a href="{% url 'library:author_update' object.pk %}" class="btn btn-primary btn-sm"><i
-            class="{{ button_icon }}"></i>&nbsp;&nbsp;
-        {{ button_name }}</a>
+    {% include 'components/buttons/_update.html' %}
 
-    <a href="{% url 'library:author_delete' object.pk %}" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+    <a href="{{ object.get_delete_url }}" class="btn btn-danger btn-sm" data-bs-toggle="modal"
         data-bs-target="#deleteModal{{ object.pk }}"><i class="bi bi-x"></i>&nbsp;&nbsp; Excluir</a>
 
     {% include 'components/buttons/_back.html' %}

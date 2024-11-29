@@ -61,9 +61,9 @@ class AuthorUpdateView(BaseUpdateView):
 
 
 class AuthorDeleteView(View):
-    def post(self, request, author_pk):
+    def post(self, request, pk):
         try:
-            author = Author.objects.get(pk=author_pk)
+            author = Author.objects.get(pk=pk)
             author.delete()
             messages.success(request, 'Deleted author')
         except ProtectedError:

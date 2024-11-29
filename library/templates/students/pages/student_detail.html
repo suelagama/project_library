@@ -34,11 +34,12 @@
 </div>
 <div class="float-end">
     {% include 'students/modals/modal_delete.html' %}
-    <a href="{% url 'library:student_update' object.pk %}" class="btn btn-primary btn-sm"><i
-            class="{{ button_icon }}"></i>&nbsp;&nbsp;
-        {{ button_name }}</a>
-    <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ object.pk }}"><i
-            class="bi bi-x"></i>&nbsp;&nbsp; Excluir</a>
+
+    {% include 'components/buttons/_update.html' %}
+
+    <button href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+        data-bs-target="#deleteModal{{ object.pk }}"><i class="bi bi-x"></i>&nbsp;&nbsp; Excluir</button>
+
     {% include 'components/buttons/_back.html' %}
 </div>
 {% endblock content %}

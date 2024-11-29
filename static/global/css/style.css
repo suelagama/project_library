@@ -305,6 +305,10 @@ html[data-bs-theme="light"] .theme-toggle .fa-sun {
     overflow: hidden;
 }
 
+.list-card-cover {
+    height: 80%;
+}
+
 .list-card-cover img {
     width: 100%;
     height: 100%;
@@ -312,22 +316,22 @@ html[data-bs-theme="light"] .theme-toggle .fa-sun {
 
 .book-card {
     width: 160px;
-    height: 100%;
-    box-shadow: 0 0 .875rem 0 rgba(34, 46, 60, .05);
-    padding: 10px 10px 10px 10px;
+    height: 230px;
+    box-shadow: 0 0 .875rem 0 rgba(73, 83, 95, 0.05);
+    padding: 10px;
     margin: 25px;
-    border-color: gray;
+    background: rgb(233, 233, 235);
+    border-color: rgb(65, 63, 63);
     vertical-align: top;
     transition: height 1s;
     border: 0;
 }
 
 .card-cover {
-    height: 90%;
+    height: 100%;
     /* border: 1px solid gray;
     overflow: hidden; */
 }
-
 
 .card-cover img {
     width: 100%;

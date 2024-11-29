@@ -60,17 +60,20 @@ class LoanUpdateView(BaseUpdateView):
 
 class LoanBookReturnView(View, LoginRequiredMixin):
 
-    def post(self, request, loan_pk):
-        loan = get_object_or_404(Loan, pk=loan_pk)
+    def post(self, request, pk):
+        loan = get_object_or_404(Loan, pk=pk)
         loan.actual_return_date = timezone.now()
         loan.returned = True
         loan.save()
-        messages.success(request, f'Livro <b>{loan.book.title}</b> Devolvido')
+        messages.success(request, f'<b>{loan.book.title}</b> book returned')
         return redirect('library:loan_list')
 
 
 class LoanDeleteView(View, LoginRequiredMixin):
-    def post(self, request, loan_pk):
-        loan = Loan.objects.get(pk=loan_pk)
+    def post(self, request, pk):
+        loan = Loan.objects.get(pk=pk)
         loan.delete()
+        messages.success(request,
+                         f'Loan of the deleted <b>{loan.book.title}</b>'
+                         )
         return redirect('library:loan_list')

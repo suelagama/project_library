@@ -6,15 +6,5 @@
     {% endif %}
 </h5>
 <h5 class="mt-5 date-create-update col">
-    {% if object.registered_by is not None %}
-    {% if object.registered_by.first_name %}
-    <span class="fw-bold">Registered by: </span>&nbsp;{{ object.registered_by.first_name }}
-    {{ object.registered_by.last_name }}
-    {% else %}
-    <span class="fw-bold">Registered by: </span>&nbsp;{{ object.registered_by.username }}
-    {% endif %}
-    {% else %}
-    <span class="fw-bold">Registered by: </span>&nbsp;Desconhecido
-
-    {% endif %}
+    {{ user_display|safe }}
 </h5>
